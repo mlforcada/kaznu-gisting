@@ -1,13 +1,15 @@
 # Appraise job preparation
 
+Note that lots of this code has been obtained by modifying existing code containing other functionalities.  Remnants of the code used there are still found here. Some time would be needed to streamline this code.
+
 ## prepare_one_2.py
 
 Takes two files: a reference text file, a hint text file, and produces an XML results file.
 In this project, both the reference and the hint text are a single sentence.
 
-One can set the percentage of gaps (e.g.  --percentage 20 for 20%), the source language (--sl), the target language (--tl) which will be used to label the XML file.
+If --no_hint is given, the hint text is ignored.
 
-If a KenLM language model is available, holes are punched where the entropy is maximum; otherwise, they are randomly punched (selecting --no_entropy).
+One can set the percentage of gaps (e.g.  --percentage 20 for 20%), the source language (--sl), the target language (--tl) which will be used to label the XML file. A document id (--docid) is also provided.
 
 If a list of stopwords is available for the language in question from package stop_words, then holes are never punched where stopwords are. 
 
@@ -15,26 +17,21 @@ The switch --adjacent_gaps_not_ok avoids punching gaps which are adjacents or ju
 
 The switch --system labels the system used.
 
-If the target language (--tl) is English, the gensim package is used to obtain a one-sentence summary
-
-[Change usage as it may be wrong for the Kazakh project]
 
 
 ```
-usage: prepare_one_2.py [-h] [--percentage PERCENTAGE]
-                        [--raw-model RAWMODELFILENAME]
-                        [--binary-model BINARYMODELFILENAME] [-v]
+usage: prepare_one_2.py [-h] [--percentage PERCENTAGE] [-v]
                         [--include_stopwords] [--include_punctuation]
                         [--no_hint] [--setid SETID] [--docid DOCID] [--sl SL]
-                        [--tl TL] [--system SYSTEM] [--no_entropy]
-                        [--no_context] [--adjacent_gaps_not_ok]
+                        [--tl TL] [--system SYSTEM] 
+                        [--adjacent_gaps_not_ok]
                         reftextfile hinttextfile resultfile
 
 ``` 
 
 ## wrapper.py
 
-[I have to modify this code so that it actually works for Kazakh etc.]
+[I have to modify this code so that it actually works for the Kazakh project etc.]
 
 ## merger.py 
 
