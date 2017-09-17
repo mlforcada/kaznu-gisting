@@ -65,7 +65,7 @@ if args.no_hint :
         system="NONE"
 else :
         system=args.system
-        hinttext=summary
+        hinttext=[summary]
 
    
 
