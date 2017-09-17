@@ -14,11 +14,11 @@
 #  MA 02110-1301, USA.
 #  
 
-# MLF 20170517
+# MLF 20170917
 # Ugly wrapper around prepare_one_2.py to generate a set of tasks
 # Will initially write all tasks for a job in a specific directory
 # And will merge them later using a shell
-# Will later modify prepare_one_2.py to generate snippets that are easier to merge
+# Will later modify prepare_one_2.py to generate snippets that are easier to merge (never did!)
 
 # For inspiration
 # system=google; name=OSU; number=13; echo $system;  python prepare_one_2.py --percentage 20 --raw-model /home/mlf/tmp/kenlm/news-commentary-v8.arpa.en  --binary-model /home/mlf/tmp/kenlm/news-commentary-v8.blm.en ~/Escriptori/durham/sheffield/carol-s-data/creg/human/$name"_"text-id\=$number.txt ~/Escriptori/durham/sheffield/carol-s-data/creg/$system/$name"_"text-id\=$number.txt problems/$name-$number.xml -v --setid $name-$number --docid $name-$number --sl de --tl en --adjacent_gaps_not_ok --system $system
@@ -49,13 +49,20 @@ sl = "de"
 tl = "en"
 
 # conditions for configurations
-percentages = ["10", "20"]
-strategies=["--no_entropy",""]
-systems = ["google", "moses", "systran", "bing", "--no_hint"]
-realsystems = ["google", "moses", "systran", "bing"]
-contexts = ["--no_context", ""]
+# percentages = ["10", "20"]
+percentages = ["20"]  # just one for the time being
+# strategies=["--no_entropy",""]
+strategies=["--no_entropy"]
 
-# file names
+# systems = ["google", "moses", "systran", "bing", "--no_hint"]
+systems = ["google", "yandex", "apertium",  "--no_hint"]
+# realsystems = ["google", "moses", "systran", "bing"]
+realsystems = ["google", "yandex", "apertium"]
+contexts = ["--no_context"]
+# contexts = ["--no_context", ""]
+
+# file names should be read from the command line but they will be listed here
+# for the time being
 files = [("KU","13"),
 ("KU","15"),
 ("KU","22"),
@@ -99,8 +106,6 @@ nfiles=len(files)
 no_hinting_configurations = [[percentage,strategy,"--no_hint", "--no_context"] for percentage in percentages for strategy in strategies ]
 hinting_configurations=[[percentage,"",system,context] for percentage in percentages for system in realsystems for context in contexts ]
 
-
-
 configurations = no_hinting_configurations + hinting_configurations
 nconfig = len(configurations)
 if args.verbose :
@@ -117,8 +122,6 @@ iFile=1
 
 iName=0
 iNumber=1
-
-
 
 
 # current set of configurations for this informant

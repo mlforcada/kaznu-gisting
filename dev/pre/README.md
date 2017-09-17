@@ -31,7 +31,7 @@ usage: prepare_one_2.py [-h] [--percentage PERCENTAGE] [-v]
 
 ## wrapper.py
 
-[I have to modify this code so that it actually works for the Kazakh project etc.]
+[I have to modify this code so that it actually works for the Kazakh project etc. --- working on it now]
 
 ## merger.py 
 
