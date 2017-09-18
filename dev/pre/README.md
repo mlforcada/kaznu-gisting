@@ -31,6 +31,30 @@ usage: prepare_one_2.py [-h] [--percentage PERCENTAGE] [-v]
 
 ## wrapper.py
 
+This program receives an informant number, the directory where all problem files are kept  (in directories
+such as human, google, yandex, etc., and the names of files to get from each of these directories) and generates
+a in /tmp/i where i is the informant number set of one-problem XML files that will later be merged by merger.py.
+
+The code may be improved massively, as it has a number of hard-wired parameters such as the names of the directories (named after the systems).
+
+
+
+```
+usage: wrapper.py [-h] [-v] [--dry_run]
+                  informant documents_root problemfiles [problemfiles ...]
+
+positional arguments:
+  informant       Informant number
+  documents_root  root of document files
+  problemfiles    names of problems to process
+
+optional arguments:
+  -h, --help      show this help message and exit
+  -v, --verbose   Verbose Mode
+  --dry_run       Dry run
+```
+
+
 [I have to modify this code so that it actually works for the Kazakh project etc. --- working on it now]
 
 ## merger.py 

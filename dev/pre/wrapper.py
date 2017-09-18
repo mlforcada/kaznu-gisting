@@ -34,13 +34,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("informant",help="Informant number", type=int)
 parser.add_argument('-v', '--verbose', help='Verbose Mode', dest="verbose", action='store_true',default=False)
 parser.add_argument('--dry_run', help='Dry run', dest="dry_run", action='store_true',default=False)
+parser.add_argument("documents_root", help="root of document files")
+parser.add_argument("problems", metavar="problemfiles", help="names of problems to process", nargs='+')
 args = parser.parse_args()
 
 informant=args.informant
-
-raw_model = "/home/mlf/tmp/kenlm/news-commentary-v8.arpa.en"
-binary_model = "/home/mlf/tmp/kenlm/news-commentary-v8.blm.en"
-documents_root="/home/mlf/Escriptori/durham/sheffield/carol-s-data/creg/"
 
 target_directory="/tmp/"  
 
@@ -63,43 +61,44 @@ contexts = ["--no_context"]
 
 # file names should be read from the command line but they will be listed here
 # for the time being
-files = [("KU","13"),
-("KU","15"),
-("KU","22"),
-("KU","24"),
-("KU","30"),
-("KU","38"),
-("KU","39"),
-("KU","46"),
-("OSU","103"),
-("OSU","109"),
-("OSU","110"),
-("OSU","113"),
-("OSU","114"),
-("OSU","117"),
-("OSU","118"),
-("OSU","13"),
-("OSU","1"),
-("OSU","29"),
-("OSU","30"),
-("OSU","31"),
-("OSU","38_1"),
-("OSU","38_2"),
-("OSU","3"),
-("OSU","47"),
-("OSU","51"),
-("OSU","57"),
-("OSU","65_1"),
-("OSU","67_2"),
-("OSU","69_3"),
-("OSU","80"),
-("OSU","81"),
-("OSU","83"),
-("OSU","88"),
-("TUE","10"),
-("TUE","13"),
-("TUE","5")]
+#files = [("KU","13"),
+#("KU","15"),
+#("KU","22"),
+#("KU","24"),
+#("KU","30"),
+#("KU","38"),
+#("KU","39"),
+#("KU","46"),
+#("OSU","103"),
+#("OSU","109"),
+#("OSU","110"),
+#("OSU","113"),
+#("OSU","114"),
+#("OSU","117"),
+#("OSU","118"),
+#("OSU","13"),
+#("OSU","1"),
+#("OSU","29"),
+#("OSU","30"),
+#("OSU","31"),
+#("OSU","38_1"),
+#("OSU","38_2"),
+#("OSU","3"),
+#("OSU","47"),
+#("OSU","51"),
+#("OSU","57"),
+#("OSU","65_1"),
+#("OSU","67_2"),
+#("OSU","69_3"),
+#("OSU","80"),
+#("OSU","81"),
+#("OSU","83"),
+#("OSU","88"),
+#("TUE","10"),
+#("TUE","13"),
+#("TUE","5")]
 
+files = args.problemfiles
 nfiles=len(files)
 
 # generate configurations
@@ -112,7 +111,7 @@ if args.verbose :
    print "Number of configurations: " , nconfig
 	
 # indexing parts of a configuration by name
-iPercentage=0
+iPercentage=iF
 iStrategy=1
 iSystem=2
 iContext=3
@@ -128,7 +127,7 @@ iNumber=1
 c = []
 
 # assign jobs for this informant
-for d,f in enumerate(range(nfiles)) :
+for f in enumerate(range(nfiles)) :
 	cid = (informant + d) % nconfig     # c(i,d)=(i+d-1) mod C in paper
 	c.append([configurations[cid],files[f]])
  
@@ -149,6 +148,7 @@ for k,config in enumerate(c) :
        system_for_hinting=config[iCondition][iSystem]
        system_for_switch= config[iCondition][iSystem]
        hinting_switch = ""  # put together command line
+    # lots of this is legacy code that is not used --- has to be deleted in the future
     if config[iCondition][iContext]=="--no_context" :
        context="-doc"
     else :
@@ -157,24 +157,20 @@ for k,config in enumerate(c) :
        strategy="-ent"
     else :
        strategy="+ent"      
-    docname = config[iFile][iName] + "_text-id=" + config[iFile][iNumber] + ".txt"
-    docid = config[iFile][iName] + "-" + config[iFile][iNumber] + ":" + str(informant)
+    docname = config[iFile]
+    docid = config[iFile] + ":" + str(informant)
     setid = docid + ":" + system_for_switch + ":" + context + ":" + str(informant) + ":" + strategy
     
     command="python prepare_one_2.py" +  \
 	  " --percentage " + config[iCondition][iPercentage] + \
-	  " --raw-model " + raw_model + \
-	  " --binary-model " + binary_model + \
-	  " " + documents_root + "human/" + docname + \
-	  " " + documents_root + system_for_hinting + "/" + docname + \
+	  " " + documents_root + "human/" + docname + ".txt" + \
+	  " " + documents_root + system_for_hinting + "/" + docname + ".txt" + \
 	  " " + results_directory + "/" + setid + ".xml" + \
 	  " --setid " + setid + \
 	  " --docid " + docid + \
 	  " --sl " + sl + \
 	  " --tl " + tl + \
 	  " --adjacent_gaps_not_ok" + \
-	  " " + config[iCondition][iStrategy] + \
-	  " " + config[iCondition][iContext] + \
 	  " --system " + system_for_switch + \
 	  " " + hinting_switch + \
 	  " -v";
