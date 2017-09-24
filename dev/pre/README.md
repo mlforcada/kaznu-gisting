@@ -40,18 +40,23 @@ The code may be improved massively, as it has a number of hard-wired parameters 
 
 
 ```
-usage: wrapper.py [-h] [-v] [--dry_run]
+usage: wrapper.py [-h] [-v] [--dry_run] [--sl SL] [--tl TL]
+                  [--target_dir TARGET_DIRECTORY]
                   informant documents_root problemfiles [problemfiles ...]
 
 positional arguments:
-  informant       Informant number
-  documents_root  root of document files
-  problemfiles    names of problems to process
+  informant             Informant number
+  documents_root        root of document files
+  problemfiles          names of problems to process
 
 optional arguments:
-  -h, --help      show this help message and exit
-  -v, --verbose   Verbose Mode
-  --dry_run       Dry run
+  -h, --help            show this help message and exit
+  -v, --verbose         Verbose Mode
+  --dry_run             Dry run
+  --sl SL               Source language
+  --tl TL               Source language
+  --target_dir TARGET_DIRECTORY
+                        Target directory
 ```
 
 
