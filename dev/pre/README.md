@@ -96,7 +96,7 @@ optional arguments:
 This would usually be called after wrapper.py in a loop, to generate the job files to be uploaded to Appraise:
 
 ```
-for i in {00..10}; do python merger.py --setid $i --outfile /tmp/job$i.xml /tmp/$i/*.xml ; done
+for i in {00..10}; do python merger.py --setid $i --outfile /tmp/enkkjob$i.xml /tmp/$i/*.xml ; done
 ```
-
+In this case, the job files are enkkjobNN.xml 
 
