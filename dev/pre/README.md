@@ -1,11 +1,13 @@
 # Appraise job preparation
 
-Note that lots of this code has been obtained by modifying existing code containing other functionalities.  Remnants of the code used there are still found here. Some time would be needed to streamline this code.
+Note that lots of this code has been obtained by modifying existing code containing other functionalities.  Remnants of the code used there are still found here. Some time would be needed to streamline this code. 
 
 ## prepare_one_2.py
 
 Takes two files: a reference text file, a hint text file, and produces an XML results file.
 In this project, both the reference and the hint text are a single sentence.
+
+This is meant to be called by wrapper.py below, never directly.
 
 If --no_hint is given, the hint text is ignored.
 
@@ -59,8 +61,16 @@ optional arguments:
                         Target directory
 ```
 
+Example:
 
-[I have to modify this code so that it actually works for the Kazakh project etc. --- working on it now]
+```
+python wrapper.py  -v --sl en --tl kk 0 ../kazengex/ text1 text2 text3 text4 text5 text6 text7
+```
+Here the informant is number 0, but it can be called in a loop:
+```
+for i in {00..10}; do python wrapper.py  -v --sl en --tl kk $i ../kazengex/ text1 text2 text3 text4 text5 text6 text7; done
+```
+This creates a series of directories 00, 01 etc. where the XML files for each job are stored.
 
 ## merger.py 
 
@@ -82,3 +92,11 @@ optional arguments:
   --setid SETID      New set identifier
   --outfile OUTFILE  Output file
 ```
+
+This would usually be called after wrapper.py in a loop, to generate the job files to be uploaded to Appraise:
+
+```
+for i in {00..10}; do python merger.py --setid $i --outfile /tmp/job$i.xml /tmp/$i/*.xml ; done
+```
+
+

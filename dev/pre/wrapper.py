@@ -31,7 +31,7 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("informant",help="Informant number", type=int)
+parser.add_argument("informant",help="Informant number")
 parser.add_argument('-v', '--verbose', help='Verbose Mode', dest="verbose", action='store_true',default=False)
 parser.add_argument('--dry_run', help='Dry run', dest="dry_run", action='store_true',default=False)
 parser.add_argument("documents_root", help="root of document files")
@@ -89,11 +89,11 @@ c = []
 # assign jobs for this informant
 for d,f in enumerate(range(nfiles)) :
 	print d
-	cid = (informant + d) % nconfig     # c(i,d)=(i+d-1) mod C in paper
+	cid = (int(informant) + d) % nconfig     # c(i,d)=(i+d-1) mod C in paper
 	c.append([configurations[cid],files[f]])
  
 	
-results_directory = args.target_directory + str(informant)
+results_directory = args.target_directory + informant
 os.system("mkdir "+  results_directory ) # change to target directory and create a file for informant 	
 	
 for k,config in enumerate(c) :
@@ -119,8 +119,8 @@ for k,config in enumerate(c) :
     else :
        strategy="+ent"      
     docname = config[iFile]
-    docid = config[iFile] + ":" + str(informant)
-    setid = docid + ":" + system_for_switch + ":" + context + ":" + str(informant) + ":" + strategy
+    docid = config[iFile] + ":" + informant
+    setid = docid + ":" + system_for_switch + ":" + context + ":" + informant + ":" + strategy
     
     command="python prepare_one_2.py" +  \
 	  " --percentage " + config[iCondition][iPercentage] + \
