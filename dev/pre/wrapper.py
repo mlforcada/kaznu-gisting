@@ -81,8 +81,6 @@ iContext=3
 iCondition=0
 iFile=1
 
-iName=0
-iNumber=1
 
 
 # current set of configurations for this informant
@@ -126,14 +124,15 @@ for k,config in enumerate(c) :
     
     command="python prepare_one_2.py" +  \
 	  " --percentage " + config[iCondition][iPercentage] + \
-	  " " + documents_root + "human/" + docname + ".txt" + \
-	  " " + documents_root + system_for_hinting + "/" + docname + ".txt" + \
+	  " " + args.documents_root + "human/" + docname + ".txt" + \
+	  " " + args.documents_root + system_for_hinting + "/" + docname + ".txt" + \
 	  " " + results_directory + "/" + setid + ".xml" + \
 	  " --setid " + setid + \
 	  " --docid " + docid + \
 	  " --sl " + args.sl + \
 	  " --tl " + args.tl + \
 	  " --adjacent_gaps_not_ok" + \
+	  " --include_stopwords" + \
 	  " --system " + system_for_switch + \
 	  " " + hinting_switch + \
 	  " -v";
