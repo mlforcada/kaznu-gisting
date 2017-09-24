@@ -65,7 +65,7 @@ nfiles=len(files)
 
 # generate configurations
 no_hinting_configurations = [[percentage,strategy,"--no_hint", "--no_context"] for percentage in percentages for strategy in strategies ]
-hinting_configurations=[[percentage,"",system,context] for percentage in percentages for system in realsystems for context in contexts ]
+hinting_configurations=[[percentage,"--no_entropy",system,context] for percentage in percentages for system in realsystems for context in contexts ]
 
 configurations = no_hinting_configurations + hinting_configurations
 nconfig = len(configurations)
@@ -88,7 +88,6 @@ c = []
 
 # assign jobs for this informant
 for d,f in enumerate(range(nfiles)) :
-	print d
 	cid = (int(informant) + d) % nconfig     # c(i,d)=(i+d-1) mod C in paper
 	c.append([configurations[cid],files[f]])
  
