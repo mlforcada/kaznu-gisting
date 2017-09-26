@@ -30,10 +30,10 @@ out.write('<set id="' + args.setid  + '" source-language="de" target-language="e
 
 segcounter=0
 for _file in args.mergefiles :
-    _lines=open(_file).readlines()
-    segcounter=segcounter+1 #each file has a single segment; won't work otherwise
-    for i in range(1,len(_lines)-1) :
-        out.write(_lines[i].replace("editme::", str(segcounter) + ":inf" + args.setid + ":"))
+	_lines=open(_file).readlines()
+	segcounter=segcounter+1 #each file has a single segment; won't work otherwise
+	for i in range(1,len(_lines)-1) :
+		out.write(_lines[i].replace("editme::", str(segcounter) + ":inf" + args.setid + ":"))
 out.write( '</set>'	 )
 out.close()
    
